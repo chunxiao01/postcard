@@ -35,7 +35,7 @@
     #8d1c23,
     #8b1d25
   );
-  background: url("@/assets/img/bg.png") no-repeat;
+  /* background: url("@/assets/img/bg.png") no-repeat; */
   background-position: center;
   background-size: 100% 100%;
 }
