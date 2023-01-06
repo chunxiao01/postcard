@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted, ref } from "vue"
+import { ref } from "vue"
 import AudioMusic from "@/assets/audio/Spring Festival.mp3"
 const isAudioPlay = ref(false)
 const audioplayer = ref(null)
@@ -13,17 +13,6 @@ const audioPlay = () => {
     }
   }
 }
-onMounted(() => {
-  nextTick(() => {
-    if (audioplayer.value) {
-      if (isAudioPlay.value) {
-        audioplayer.value.play()
-      } else {
-        audioplayer.value.pause()
-      }
-    }
-  })
-})
 </script>
 <template>
   <div class="card">
