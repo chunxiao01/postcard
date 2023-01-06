@@ -2,8 +2,16 @@
 import { ref } from "vue"
 
 const isAudioPlay = ref(true)
+const audioplayer = ref(null)
 const audioPlay = () => {
   isAudioPlay.value = !isAudioPlay.value
+  if (audioplayer.value) {
+    if (isAudioPlay.value) {
+      audioplayer.value.play()
+    } else {
+      audioplayer.value.pause()
+    }
+  }
 }
 </script>
 <template>
@@ -24,6 +32,20 @@ const audioPlay = () => {
           :class="{ 'audio-active': isAudioPlay }"
           @click="audioPlay"
         ></div>
+        <div class="audioplayer" v-show="isAudioPlay">
+          <audio
+            ref="audioplayer"
+            id="audioplayer"
+            loop="loop"
+            preload="auto"
+            autoplay="autoplay"
+          >
+            <source
+              src="@/assets/audio/Spring Festival.mp3"
+              type="audio/mpeg"
+            />
+          </audio>
+        </div>
       </div>
     </div>
   </div>
@@ -131,5 +153,9 @@ const audioPlay = () => {
   100% {
     -webkit-transform: rotateZ(360deg);
   }
+}
+.audioplayer {
+  position: absolute;
+  z-index: -9999;
 }
 </style>
