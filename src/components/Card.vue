@@ -1,11 +1,29 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue"
+
+const isAudioPlay = ref(true)
+const audioPlay = () => {
+  isAudioPlay.value = !isAudioPlay.value
+}
+</script>
 <template>
   <div class="card">
     <div class="happy-new-year">
       <div class="happy-new-year-content">
         <div class="happy-new-year-text">
-          <span class="happy-new-year-txt">新年快樂</span>
+          <div class="happy-new-year-txt1"><span></span></div>
+          <div class="happy-new-year-txt2"><span></span></div>
+          <div class="happy-new-year-txt">
+            <span>新年快樂</span>
+          </div>
+          <div class="happy-new-year-txt3"><span></span></div>
+          <div class="happy-new-year-txt4"><span></span></div>
         </div>
+        <div
+          class="happy-new-year-audio"
+          :class="{ 'audio-active': isAudioPlay }"
+          @click="audioPlay"
+        ></div>
       </div>
     </div>
   </div>
@@ -22,6 +40,7 @@
 }
 
 .happy-new-year-content {
+  position: relative;
   width: 100%;
   height: 100%;
   background: linear-gradient(
@@ -43,19 +62,74 @@
 }
 
 .happy-new-year-text {
-  width: 60px;
-  height: 100%;
-  margin: 0 auto;
-  word-wrap: break-word;
-  text-align: center;
-  align-self: center;
   display: flex;
-  color: #ffd8b3; /*#ffd700 #cd9694*/
-  font-size: 50px;
-  font-weight: bolder;
+  width: 100%;
+  height: 100%;
 }
 
 .happy-new-year-txt {
+  display: flex;
+  width: 60px;
+  height: 100%;
+}
+
+.happy-new-year-txt span {
+  display: flex;
   align-self: center;
+  width: 100%;
+  line-height: 80px;
+  word-wrap: break-word;
+  text-align: center;
+  color: #ffd8b3; /*#ffd700 #cd9694*/
+  font-size: 50px;
+  font-weight: 600;
+  margin-bottom: 100px;
+}
+
+.happy-new-year-txt1,
+.happy-new-year-txt2,
+.happy-new-year-txt3,
+.happy-new-year-txt4 {
+  display: flex;
+  flex: auto;
+}
+
+.happy-new-year-audio {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  top: 20px;
+  right: 20px;
+  text-align: center;
+  background: url("@/assets/img/audio.svg");
+}
+/* .icon {
+  width: 100%;
+  margin: auto;
+  -webkit-animation: rotataZ 1.2s linear infinite;
+  animation: rotataZ 1.2s linear infinite;
+} */
+
+.audio-active {
+  -webkit-animation: rotataZ 1.2s linear infinite;
+  animation: rotataZ 1.2s linear infinite;
+}
+
+@-webkit-keyframes rotataZ {
+  0% {
+    -webkit-transform: rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateZ(360deg);
+  }
+}
+@keyframes rotataZ {
+  0% {
+    -webkit-transform: rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateZ(360deg);
+  }
 }
 </style>
