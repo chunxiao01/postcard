@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue"
-
+import AudioMusic from "@/assets/audio/Spring Festival.mp3"
 const isAudioPlay = ref(true)
 const audioplayer = ref(null)
 const audioPlay = () => {
@@ -40,10 +40,7 @@ const audioPlay = () => {
             preload="auto"
             autoplay="autoplay"
           >
-            <source
-              src="@/assets/audio/Spring Festival.mp3"
-              type="audio/mpeg"
-            />
+            <source :src="AudioMusic" type="audio/mpeg" />
           </audio>
         </div>
       </div>
