@@ -1,17 +1,8 @@
 <script setup>
-import { onMounted, ref } from "vue"
+import { nextTick, onMounted, ref } from "vue"
 import AudioMusic from "@/assets/audio/Spring Festival.mp3"
-const isAudioPlay = ref(true)
+const isAudioPlay = ref(false)
 const audioplayer = ref(null)
-onMounted(() => {
-  if (audioplayer.value) {
-    if (isAudioPlay.value) {
-      audioplayer.value.play()
-    } else {
-      audioplayer.value.pause()
-    }
-  }
-})
 const audioPlay = () => {
   isAudioPlay.value = !isAudioPlay.value
   if (audioplayer.value) {
@@ -22,6 +13,17 @@ const audioPlay = () => {
     }
   }
 }
+onMounted(() => {
+  nextTick(() => {
+    if (audioplayer.value) {
+      if (isAudioPlay.value) {
+        audioplayer.value.play()
+      } else {
+        audioplayer.value.pause()
+      }
+    }
+  })
+})
 </script>
 <template>
   <div class="card">
@@ -42,13 +44,7 @@ const audioPlay = () => {
           @click="audioPlay"
         ></div>
         <div class="audioplayer" v-show="isAudioPlay">
-          <audio
-            ref="audioplayer"
-            id="audioplayer"
-            loop="loop"
-            preload="auto"
-            autoplay="autoplay"
-          >
+          <audio ref="audioplayer" id="audioplayer" loop="loop" preload="auto">
             <source :src="AudioMusic" type="audio/mpeg" />
           </audio>
         </div>
