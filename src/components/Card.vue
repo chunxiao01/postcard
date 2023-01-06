@@ -1,8 +1,17 @@
 <script setup>
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import AudioMusic from "@/assets/audio/Spring Festival.mp3"
 const isAudioPlay = ref(true)
 const audioplayer = ref(null)
+onMounted(() => {
+  if (audioplayer.value) {
+    if (isAudioPlay.value) {
+      audioplayer.value.play()
+    } else {
+      audioplayer.value.pause()
+    }
+  }
+})
 const audioPlay = () => {
   isAudioPlay.value = !isAudioPlay.value
   if (audioplayer.value) {
