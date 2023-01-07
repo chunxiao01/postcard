@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from "vue"
+import { onMounted, ref, watch } from "vue"
+
+import { Fireworks } from "@fireworks-js/vue"
 
 import AudioMusic from "@/assets/audio/Spring Festival.mp3"
 const isAudioPlay = ref(false)
 const audioplayer = ref(null)
+const fireworkref = ref(null)
 
 const audioPlay = () => {
   isAudioPlay.value = !isAudioPlay.value
@@ -15,6 +18,16 @@ const audioPlay = () => {
     }
   }
 }
+
+const options = defineProps({
+  opacity: 0.5
+})
+
+onMounted(() => {
+  if (fireworkref.value) {
+    fireworkref.value.start()
+  }
+})
 </script>
 <template>
   <div class="card">
@@ -29,17 +42,31 @@ const audioPlay = () => {
           <div class="happy-new-year-txt3"><span></span></div>
           <div class="happy-new-year-txt4"><span></span></div>
         </div>
-        <div
-          class="happy-new-year-audio"
-          :class="{ 'audio-active': isAudioPlay }"
-          @click="audioPlay"
-        ></div>
         <div class="audioplayer" v-show="isAudioPlay">
           <audio ref="audioplayer" id="audioplayer" loop="loop" preload="auto">
             <source :src="AudioMusic" type="audio/mpeg" />
           </audio>
         </div>
-        <div class="firework"></div>
+        <div class="firework">
+          <Fireworks
+            ref="fireworkref"
+            :autostart="false"
+            :options="options"
+            :style="{
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              position: 'fixed',
+              background: 'rgba(0,0,0,0)'
+            }"
+          />
+        </div>
+        <div
+          class="happy-new-year-audio"
+          :class="{ 'audio-active': isAudioPlay }"
+          @click="audioPlay"
+        ></div>
       </div>
     </div>
   </div>
