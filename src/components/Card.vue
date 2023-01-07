@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from "vue"
+
 import AudioMusic from "@/assets/audio/Spring Festival.mp3"
 const isAudioPlay = ref(false)
 const audioplayer = ref(null)
+
 const audioPlay = () => {
   isAudioPlay.value = !isAudioPlay.value
   if (audioplayer.value) {
@@ -37,6 +39,7 @@ const audioPlay = () => {
             <source :src="AudioMusic" type="audio/mpeg" />
           </audio>
         </div>
+        <div class="firework"></div>
       </div>
     </div>
   </div>
