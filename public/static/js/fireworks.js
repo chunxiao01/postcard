@@ -3,7 +3,7 @@
  *author:Caleb Miller (https://codepen.io/MillerTime)
  */
 "use strict"
-console.clear()
+// console.clear()
 
 // This is a prime example of what starts out as a simple project
 // and snowballs way beyond its intended size. It's a little clunky
@@ -170,7 +170,7 @@ const store = {
         default:
           throw new Error("version switch should be exhaustive")
       }
-      console.log(`Loaded config (schema version ${schemaVersion})`)
+      // console.log(`Loaded config (schema version ${schemaVersion})`)
     }
     // Deprecated data format. Checked with care (it's not namespaced).
     else if (localStorage.getItem("schemaVersion") === "1") {
