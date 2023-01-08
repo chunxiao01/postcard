@@ -1,12 +1,11 @@
 <script setup>
 import { onMounted, ref, watch } from "vue"
 
-import { Fireworks } from "@fireworks-js/vue"
+import FireWorks from "./FireWorks.vue"
 
 import AudioMusic from "@/assets/audio/Spring Festival.mp3"
 const isAudioPlay = ref(false)
 const audioplayer = ref(null)
-const fireworkref = ref(null)
 
 const audioPlay = () => {
   isAudioPlay.value = !isAudioPlay.value
@@ -19,15 +18,7 @@ const audioPlay = () => {
   }
 }
 
-const options = defineProps({
-  opacity: 0.5
-})
-
-onMounted(() => {
-  if (fireworkref.value) {
-    fireworkref.value.start()
-  }
-})
+onMounted(() => {})
 </script>
 <template>
   <div class="card">
@@ -48,19 +39,7 @@ onMounted(() => {
           </audio>
         </div>
         <div class="firework">
-          <Fireworks
-            ref="fireworkref"
-            :autostart="false"
-            :options="options"
-            :style="{
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              position: 'fixed',
-              background: 'rgba(0,0,0,0)'
-            }"
-          />
+          <FireWorks />
         </div>
         <div
           class="happy-new-year-audio"
@@ -86,7 +65,8 @@ onMounted(() => {
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
+  background-color: black;
+  /*background: linear-gradient(
     to bottom,
     #e12020,
     #dd211f,
@@ -97,8 +77,8 @@ onMounted(() => {
     #9e1d24,
     #981d24,
     #8d1c23,
-    #8b1d25
-  );
+   #8b1d25
+  );*/
   /* background: url("@/assets/img/bg.png") no-repeat;
   background-position: center;
   background-size: 100% 100%; */
