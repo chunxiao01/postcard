@@ -1148,11 +1148,11 @@ function handlePointerStart(event) {
       event.x > mainStage.width / 2 - btnSize / 2 &&
       event.x < mainStage.width / 2 + btnSize / 2
     ) {
-      toggleSound()
+      // toggleSound()
       return
     }
     if (event.x > mainStage.width - btnSize) {
-      toggleMenu()
+      // toggleMenu()
       return
     }
   }
@@ -1182,22 +1182,22 @@ function handlePointerMove(event) {
 function handleKeydown(event) {
   // P
   if (event.keyCode === 80) {
-    togglePause()
+    // togglePause()
   }
   // O
   else if (event.keyCode === 79) {
-    toggleMenu()
+    // toggleMenu()
   }
   // Esc
   else if (event.keyCode === 27) {
-    toggleMenu(false)
+    // toggleMenu(false)
   }
 }
 
-mainStage.addEventListener("pointerstart", handlePointerStart)
-mainStage.addEventListener("pointerend", handlePointerEnd)
-mainStage.addEventListener("pointermove", handlePointerMove)
-window.addEventListener("keydown", handleKeydown)
+// mainStage.addEventListener("pointerstart", handlePointerStart)
+// mainStage.addEventListener("pointerend", handlePointerEnd)
+// mainStage.addEventListener("pointermove", handlePointerMove)
+// window.addEventListener("keydown", handleKeydown)
 
 // Account for window resize and custom scale changes.
 function handleResize() {
