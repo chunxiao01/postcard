@@ -3,10 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./static/css/fireworks.css" />
     <title>新年快乐</title>
   </head>
   <body>
+    <!-- fireworks -->
+    <div class="container">
+      <div class="stage-container">
+        <div class="canvas-container">
+          <canvas id="trails-canvas"></canvas>
+          <canvas id="main-canvas"></canvas>
+        </div>
+      </div>
+    </div>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script src="./static/js/fscreen@1.0.1.js"></script>
+    <script src="./static/js/Stage@0.1.4.js"></script>
+    <script src="./static/js/MyMath.js"></script>
+    <script src="./static/js/fireworks.js"></script>
   </body>
 </html>

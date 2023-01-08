@@ -1,7 +1,8 @@
-<template>
-  <div></div>
-</template>
+<template></template>
 
-<script setup></script>
+<script setup>
+//https://codepen.io/MillerTime/pen/XgpNwb  Firework Simulator v2
+//author:Caleb Miller (https://codepen.io/MillerTime)
+</script>
 
 <style scoped></style>
