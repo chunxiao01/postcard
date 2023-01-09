@@ -2,18 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <link rel="stylesheet" href="./static/css/fireworks.css" />
     <title>新年快乐</title>
   </head>
   <body>
     <!-- fireworks -->
     <div class="container">
-      <div class="stage-container">
+      <div class="stage-container remove">
         <div class="canvas-container">
           <canvas id="trails-canvas"></canvas>
           <canvas id="main-canvas"></canvas>
         </div>
+        <div class="firework-sound" id="firework-sound"></div>
       </div>
     </div>
     <div id="app"></div>

@@ -1,24 +1,22 @@
 <script setup>
-import { onMounted, ref, watch } from "vue"
+// import { onMounted, ref, watch } from "vue"
 
-import FireWorks from "./FireWorks.vue"
+// import FireWorks from "./FireWorks.vue"
 
-import AudioMusic from "@/assets/audio/Spring Festival.mp3"
-const isAudioPlay = ref(false)
-const audioplayer = ref(null)
+// import AudioMusic from "@/assets/audio/Spring Festival.mp3"
+// const isAudioPlay = ref(false)
+// const audioplayer = ref(null)
 
-const audioPlay = () => {
-  isAudioPlay.value = !isAudioPlay.value
-  if (audioplayer.value) {
-    if (isAudioPlay.value) {
-      audioplayer.value.play()
-    } else {
-      audioplayer.value.pause()
-    }
-  }
-}
-
-onMounted(() => {})
+// const audioPlay = () => {
+//   isAudioPlay.value = !isAudioPlay.value
+//   if (audioplayer.value) {
+//     if (isAudioPlay.value) {
+//       audioplayer.value.play()
+//     } else {
+//       audioplayer.value.pause()
+//     }
+//   }
+// }
 </script>
 <template>
   <div class="card">
@@ -33,7 +31,7 @@ onMounted(() => {})
           <div class="happy-new-year-txt3"><span></span></div>
           <div class="happy-new-year-txt4"><span></span></div>
         </div>
-        <div class="audioplayer" v-show="isAudioPlay">
+        <!--<div class="audioplayer" v-show="isAudioPlay">
           <audio ref="audioplayer" id="audioplayer" loop="loop" preload="auto">
             <source :src="AudioMusic" type="audio/mpeg" />
           </audio>
@@ -45,7 +43,7 @@ onMounted(() => {})
           class="happy-new-year-audio"
           :class="{ 'audio-active': isAudioPlay }"
           @click="audioPlay"
-        ></div>
+        ></div>!-->
       </div>
     </div>
   </div>
