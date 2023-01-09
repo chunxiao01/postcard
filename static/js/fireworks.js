@@ -74,34 +74,6 @@ const trailsStage = new Stage("trails-canvas")
 const mainStage = new Stage("main-canvas")
 const stages = [trailsStage, mainStage]
 
-// Fullscreen helpers, using Fscreen for prefixes.
-function fullscreenEnabled() {
-  return fscreen.fullscreenEnabled
-}
-
-// Note that fullscreen state is synced to store, and the store should be the source
-// of truth for whether the app is in fullscreen mode or not.
-function isFullscreen() {
-  return !!fscreen.fullscreenElement
-}
-
-// Attempt to toggle fullscreen mode.
-function toggleFullscreen() {
-  if (fullscreenEnabled()) {
-    if (isFullscreen()) {
-      fscreen.exitFullscreen()
-    } else {
-      fscreen.requestFullscreen(document.documentElement)
-    }
-  }
-}
-
-// Sync fullscreen changes with store. An event listener is necessary because the user can
-// toggle fullscreen mode directly through the browser, and we want to react to that.
-fscreen.addEventListener("fullscreenchange", () => {
-  store.setState({ fullscreen: isFullscreen() })
-})
-
 // Simple state container; the source of truth.
 const store = {
   _listeners: new Set(),
@@ -111,11 +83,8 @@ const store = {
 
   state: {
     // will be unpaused in init()
-    paused: true,
+    paused: false,
     soundEnabled: false,
-    menuOpen: false,
-    openHelpTopic: null,
-    fullscreen: isFullscreen(),
     // Note that config values used for <select>s must be strings, unless manually converting values to strings
     // at render time, and parsing on change.
     config: {
@@ -210,39 +179,17 @@ const store = {
 }
 
 if (!IS_HEADER) {
-  store.load()
+  // store.load()
 }
 
 // Actions
 // ---------
-
-function togglePause(toggle) {
-  const paused = store.state.paused
-  let newValue
-  if (typeof toggle === "boolean") {
-    newValue = toggle
-  } else {
-    newValue = !paused
-  }
-
-  if (paused !== newValue) {
-    store.setState({ paused: newValue })
-  }
-}
 
 function toggleSound(toggle) {
   if (typeof toggle === "boolean") {
     store.setState({ soundEnabled: toggle })
   } else {
     store.setState({ soundEnabled: !store.state.soundEnabled })
-  }
-}
-
-function toggleMenu(toggle) {
-  if (typeof toggle === "boolean") {
-    store.setState({ menuOpen: toggle })
-  } else {
-    store.setState({ menuOpen: !store.state.menuOpen })
   }
 }
 
@@ -274,7 +221,7 @@ function configDidUpdate() {
 // Selectors
 // -----------
 
-const isRunning = (state = store.state) => !state.paused && !state.menuOpen
+const isRunning = (state = store.state) => !state.paused
 // Whether user has enabled sound.
 const soundEnabledSelector = (state = store.state) => state.soundEnabled
 // Whether any sounds are allowed, taking into account multiple factors.
@@ -350,42 +297,7 @@ const nodeKeyToHelpKey = {
 const appNodes = {
   stageContainer: ".stage-container",
   canvasContainer: ".canvas-container",
-  controls: ".controls",
-  menu: ".menu",
-  menuInnerWrap: ".menu__inner-wrap",
-  pauseBtn: ".pause-btn",
-  pauseBtnSVG: ".pause-btn use",
-  soundBtn: ".sound-btn",
-  soundBtnSVG: ".sound-btn use",
-  shellType: ".shell-type",
-  shellTypeLabel: ".shell-type-label",
-  shellSize: ".shell-size",
-  shellSizeLabel: ".shell-size-label",
-  quality: ".quality-ui",
-  qualityLabel: ".quality-ui-label",
-  skyLighting: ".sky-lighting",
-  skyLightingLabel: ".sky-lighting-label",
-  scaleFactor: ".scaleFactor",
-  scaleFactorLabel: ".scaleFactor-label",
-  autoLaunch: ".auto-launch",
-  autoLaunchLabel: ".auto-launch-label",
-  finaleModeFormOption: ".form-option--finale-mode",
-  finaleMode: ".finale-mode",
-  finaleModeLabel: ".finale-mode-label",
-  hideControls: ".hide-controls",
-  hideControlsLabel: ".hide-controls-label",
-  fullscreenFormOption: ".form-option--fullscreen",
-  fullscreen: ".fullscreen",
-  fullscreenLabel: ".fullscreen-label",
-  longExposure: ".long-exposure",
-  longExposureLabel: ".long-exposure-label",
-
-  // Help UI
-  helpModal: ".help-modal",
-  helpModalOverlay: ".help-modal__overlay",
-  helpModalHeader: ".help-modal__header",
-  helpModalBody: ".help-modal__body",
-  helpModalCloseBtn: ".help-modal__close-btn"
+  soundBtn: ".firework-sound"
 }
 
 // Convert appNodes selectors to dom nodes
@@ -393,50 +305,17 @@ Object.keys(appNodes).forEach((key) => {
   appNodes[key] = document.querySelector(appNodes[key])
 })
 
-// Remove fullscreen control if not supported.
-if (!fullscreenEnabled()) {
-  appNodes.fullscreenFormOption.classList.add("remove")
-}
+//控制音乐播放
 
-// First render is called in init()
-function renderApp(state) {
-  const pauseBtnIcon = `#icon-${state.paused ? "play" : "pause"}`
-  const soundBtnIcon = `#icon-sound-${soundEnabledSelector() ? "on" : "off"}`
-  appNodes.pauseBtnSVG.setAttribute("href", pauseBtnIcon)
-  appNodes.pauseBtnSVG.setAttribute("xlink:href", pauseBtnIcon)
-  appNodes.soundBtnSVG.setAttribute("href", soundBtnIcon)
-  appNodes.soundBtnSVG.setAttribute("xlink:href", soundBtnIcon)
-  appNodes.controls.classList.toggle(
-    "hide",
-    state.menuOpen || state.config.hideControls
-  )
-  appNodes.canvasContainer.classList.toggle("blur", state.menuOpen)
-  appNodes.menu.classList.toggle("hide", !state.menuOpen)
-  appNodes.finaleModeFormOption.style.opacity = state.config.autoLaunch
-    ? 1
-    : 0.32
-
-  appNodes.quality.value = state.config.quality
-  appNodes.shellType.value = state.config.shell
-  appNodes.shellSize.value = state.config.size
-  appNodes.autoLaunch.checked = state.config.autoLaunch
-  appNodes.finaleMode.checked = state.config.finale
-  appNodes.skyLighting.value = state.config.skyLighting
-  appNodes.hideControls.checked = state.config.hideControls
-  appNodes.fullscreen.checked = state.fullscreen
-  appNodes.longExposure.checked = state.config.longExposure
-  appNodes.scaleFactor.value = state.config.scaleFactor.toFixed(2)
-
-  appNodes.menuInnerWrap.style.opacity = state.openHelpTopic ? 0.12 : 1
-  appNodes.helpModal.classList.toggle("active", !!state.openHelpTopic)
-  if (state.openHelpTopic) {
-    const { header, body } = helpContent[state.openHelpTopic]
-    appNodes.helpModalHeader.textContent = header
-    appNodes.helpModalBody.textContent = body
+appNodes.soundBtn.addEventListener("click", () => {
+  if (store.state.soundEnabled) {
+    appNodes.soundBtn.classList.remove("firework-sound-active")
+  } else {
+    appNodes.soundBtn.classList.add("firework-sound-active")
   }
-}
-
-// store.subscribe(renderApp)
+  toggleSound()
+  return
+})
 
 // Perform side effects on state changes
 function handleStateChange(state, prevState) {
@@ -469,44 +348,7 @@ function getConfigFromDOM() {
   }
 }
 
-// const updateConfigNoEvent = () => updateConfig()
-// console.log(updateConfigNoEvent)
-// console.log(appNodes)
-// appNodes.quality.addEventListener("input", updateConfigNoEvent)
-// appNodes.shellType.addEventListener("input", updateConfigNoEvent)
-// appNodes.shellSize.addEventListener("input", updateConfigNoEvent)
-// appNodes.autoLaunch.addEventListener("click", () => setTimeout(updateConfig, 0))
-// appNodes.finaleMode.addEventListener("click", () => setTimeout(updateConfig, 0))
-// appNodes.skyLighting.addEventListener("input", updateConfigNoEvent)
-// appNodes.longExposure.addEventListener("click", () =>
-//   setTimeout(updateConfig, 0)
-// )
-// appNodes.hideControls.addEventListener("click", () =>
-//   setTimeout(updateConfig, 0)
-// )
-// appNodes.fullscreen.addEventListener("click", () =>
-//   setTimeout(toggleFullscreen, 0)
-// )
-// // Changing scaleFactor requires triggering resize handling code as well.
-// appNodes.scaleFactor.addEventListener("input", () => {
-//   updateConfig()
-//   handleResize()
-// })
-
-// Object.keys(nodeKeyToHelpKey).forEach((nodeKey) => {
-//   const helpKey = nodeKeyToHelpKey[nodeKey]
-//   appNodes[nodeKey].addEventListener("click", () => {
-//     store.setState({ openHelpTopic: helpKey })
-//   })
-// })
-
-// appNodes.helpModalCloseBtn.addEventListener("click", () => {
-//   store.setState({ openHelpTopic: null })
-// })
-
-// appNodes.helpModalOverlay.addEventListener("click", () => {
-//   store.setState({ openHelpTopic: null })
-// })
+const updateConfigNoEvent = () => updateConfig()
 
 // Constant derivations
 const COLOR_NAMES = Object.keys(COLOR)
@@ -812,56 +654,19 @@ const shellNames = Object.keys(shellTypes)
 function init() {
   // Remove loading state
   // document.querySelector(".loading-init").remove()
-  // appNodes.stageContainer.classList.remove("remove")
+  appNodes.stageContainer.classList.remove("remove")
 
   // Populate dropdowns
   function setOptionsForSelect(node, options) {
-    // node.innerHTML = options.reduce(
-    //   (acc, opt) =>
-    //     (acc += `<option value="${opt.value}">${opt.label}</option>`),
-    //   ""
-    // )
+    node.innerHTML = options.reduce(
+      (acc, opt) =>
+        (acc += `<option value="${opt.value}">${opt.label}</option>`),
+      ""
+    )
   }
 
-  // shell type
-  let options = ""
-  shellNames.forEach(
-    (opt) => (options += `<option value="${opt}">${opt}</option>`)
-  )
-  // appNodes.shellType.innerHTML = options
-  // shell size
-  options = ""
-  ;['3"', '4"', '6"', '8"', '12"', '16"'].forEach(
-    (opt, i) => (options += `<option value="${i}">${opt}</option>`)
-  )
-  // appNodes.shellSize.innerHTML = options
-
-  setOptionsForSelect(appNodes.quality, [
-    { label: "Low", value: QUALITY_LOW },
-    { label: "Normal", value: QUALITY_NORMAL },
-    { label: "High", value: QUALITY_HIGH }
-  ])
-
-  setOptionsForSelect(appNodes.skyLighting, [
-    { label: "None", value: SKY_LIGHT_NONE },
-    { label: "Dim", value: SKY_LIGHT_DIM },
-    { label: "Normal", value: SKY_LIGHT_NORMAL }
-  ])
-
-  // 0.9 is mobile default
-  setOptionsForSelect(
-    appNodes.scaleFactor,
-    [0.5, 0.62, 0.75, 0.9, 1.0, 1.5, 2.0].map((value) => ({
-      value: value.toFixed(2),
-      label: `${value * 100}%`
-    }))
-  )
-
   // Begin simulation
-  togglePause(false)
-
-  // initial render
-  // renderApp(store.state)
+  // togglePause(false)
 
   // Apply initial config
   configDidUpdate()
@@ -1141,7 +946,7 @@ function handlePointerStart(event) {
 
   if (event.y < btnSize) {
     if (event.x < btnSize) {
-      togglePause()
+      // togglePause()
       return
     }
     if (
@@ -1179,25 +984,9 @@ function handlePointerMove(event) {
   }
 }
 
-function handleKeydown(event) {
-  // P
-  if (event.keyCode === 80) {
-    // togglePause()
-  }
-  // O
-  else if (event.keyCode === 79) {
-    // toggleMenu()
-  }
-  // Esc
-  else if (event.keyCode === 27) {
-    // toggleMenu(false)
-  }
-}
-
-// mainStage.addEventListener("pointerstart", handlePointerStart)
-// mainStage.addEventListener("pointerend", handlePointerEnd)
-// mainStage.addEventListener("pointermove", handlePointerMove)
-// window.addEventListener("keydown", handleKeydown)
+mainStage.addEventListener("pointerstart", handlePointerStart)
+mainStage.addEventListener("pointerend", handlePointerEnd)
+mainStage.addEventListener("pointermove", handlePointerMove)
 
 // Account for window resize and custom scale changes.
 function handleResize() {
@@ -2143,7 +1932,8 @@ const Spark = {
 }
 
 const soundManager = {
-  baseURL: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/329180/",
+  // baseURL: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/329180/",
+  baseURL: "/static/audio/",
   ctx: new (window.AudioContext || window.webkitAudioContext)(),
   sources: {
     lift: {
@@ -2305,7 +2095,7 @@ const soundManager = {
 // Kick things off.
 
 function setLoadingStatus(status) {
-  document.querySelector(".loading-init__status").textContent = status
+  // document.querySelector(".loading-init__status").textContent = status
 }
 
 // CodePen profile header doesn't need audio, just initialize.
