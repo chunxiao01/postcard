@@ -1,22 +1,27 @@
 <script setup>
-// import { onMounted, ref, watch } from "vue"
-
-// import FireWorks from "./FireWorks.vue"
-
-// import AudioMusic from "@/assets/audio/Spring Festival.mp3"
-// const isAudioPlay = ref(false)
-// const audioplayer = ref(null)
-
-// const audioPlay = () => {
-//   isAudioPlay.value = !isAudioPlay.value
-//   if (audioplayer.value) {
-//     if (isAudioPlay.value) {
-//       audioplayer.value.play()
-//     } else {
-//       audioplayer.value.pause()
-//     }
-//   }
-// }
+import { onMounted, ref, reactive } from "vue"
+const words = reactive([
+  "新年快樂",
+  "兔個吉祥",
+  "錢兔似錦",
+  "大展宏兔",
+  "好事成兔",
+  "兔故納新",
+  "前兔無量",
+  "兔年大吉"
+])
+const word = ref("新年快樂")
+const flag = ref(1)
+onMounted(() => {
+  setInterval(() => {
+    if (flag.value < words.length) {
+      word.value = words[flag.value]
+      flag.value++
+    } else {
+      flag.value = 0
+    }
+  }, 5168)
+})
 </script>
 <template>
   <div class="card">
@@ -26,24 +31,11 @@
           <div class="happy-new-year-txt1"><span></span></div>
           <div class="happy-new-year-txt2"><span></span></div>
           <div class="happy-new-year-txt">
-            <span>新年快樂</span>
+            <span>{{ word }}</span>
           </div>
           <div class="happy-new-year-txt3"><span></span></div>
           <div class="happy-new-year-txt4"><span></span></div>
         </div>
-        <!--<div class="audioplayer" v-show="isAudioPlay">
-          <audio ref="audioplayer" id="audioplayer" loop="loop" preload="auto">
-            <source :src="AudioMusic" type="audio/mpeg" />
-          </audio>
-        </div>
-        <div class="firework">
-          <FireWorks />
-        </div>
-        <div
-          class="happy-new-year-audio"
-          :class="{ 'audio-active': isAudioPlay }"
-          @click="audioPlay"
-        ></div>!-->
       </div>
     </div>
   </div>
@@ -105,6 +97,16 @@
   font-size: 50px;
   font-weight: 600;
   margin-bottom: 100px;
+  transition: all 2.023s;
+}
+
+@keyframes wordAnimaition {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .happy-new-year-txt1,
@@ -113,48 +115,5 @@
 .happy-new-year-txt4 {
   display: flex;
   flex: auto;
-}
-
-.happy-new-year-audio {
-  position: fixed;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  top: 20px;
-  right: 20px;
-  text-align: center;
-  background: url("@/assets/img/audio.svg");
-}
-/* .icon {
-  width: 100%;
-  margin: auto;
-  -webkit-animation: rotataZ 1.2s linear infinite;
-  animation: rotataZ 1.2s linear infinite;
-} */
-
-.audio-active {
-  -webkit-animation: rotataZ 1.2s linear infinite;
-  animation: rotataZ 1.2s linear infinite;
-}
-
-@-webkit-keyframes rotataZ {
-  0% {
-    -webkit-transform: rotateZ(0deg);
-  }
-  100% {
-    -webkit-transform: rotateZ(360deg);
-  }
-}
-@keyframes rotataZ {
-  0% {
-    -webkit-transform: rotateZ(0deg);
-  }
-  100% {
-    -webkit-transform: rotateZ(360deg);
-  }
-}
-.audioplayer {
-  position: absolute;
-  z-index: -9999;
 }
 </style>
