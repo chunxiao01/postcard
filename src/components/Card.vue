@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, reactive } from "vue"
+
 const words = reactive([
   "新年快樂",
   "兔個吉祥",
@@ -11,10 +12,13 @@ const words = reactive([
   "兔年大吉"
 ])
 const word = ref("新年快樂")
-const flag = ref(1)
+const flag = ref(0)
+const isChange = ref(true)
+
 onMounted(() => {
   setInterval(() => {
-    if (flag.value < words.length) {
+    // isChange.value = false
+    if (flag.value < words.length - 1) {
       word.value = words[flag.value]
       flag.value++
     } else {
@@ -31,7 +35,30 @@ onMounted(() => {
           <div class="happy-new-year-txt1"><span></span></div>
           <div class="happy-new-year-txt2"><span></span></div>
           <div class="happy-new-year-txt">
-            <span>{{ word }}</span>
+            <!--<TransitionGroup
+              name="word-animation"
+              tag="ul"
+              class="happy-new-year-txt-ul"
+            >
+              <li
+                class="happy-new-year-txt-li"
+                v-for="(item, index) in words"
+                :key="index"
+                v-show="index === flag"
+              >
+                <span class="happy-new-year-span">{{ item }}</span>
+              </li>
+            </TransitionGroup>-->
+            <ul class="happy-new-year-txt-ul">
+              <li
+                class="happy-new-year-txt-li"
+                v-for="(item, index) in words"
+                :key="index"
+                v-show="index === flag"
+              >
+                <span class="happy-new-year-span">{{ item }}</span>
+              </li>
+            </ul>
           </div>
           <div class="happy-new-year-txt3"><span></span></div>
           <div class="happy-new-year-txt4"><span></span></div>
@@ -86,7 +113,7 @@ onMounted(() => {
   height: 100%;
 }
 
-.happy-new-year-txt span {
+.happy-new-year-span {
   display: flex;
   align-self: center;
   width: 100%;
@@ -97,16 +124,6 @@ onMounted(() => {
   font-size: 50px;
   font-weight: 600;
   margin-bottom: 100px;
-  transition: all 2.023s;
-}
-
-@keyframes wordAnimaition {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .happy-new-year-txt1,
@@ -115,5 +132,24 @@ onMounted(() => {
 .happy-new-year-txt4 {
   display: flex;
   flex: auto;
+}
+.happy-new-year-txt-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-self: center;
+}
+
+.happy-new-year-txt-li {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.word-animation-enter {
+  opacity: 0;
+}
+.word-animation-enter-active {
+  transition: opacity 1s;
 }
 </style>
