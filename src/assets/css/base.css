@@ -55,11 +55,7 @@ a:focus {
 
 @font-face {
   font-family: "Iansui";
-  src: url("../font/Iansui.eot") format("embedded-opentype"),
-    url("../font/Iansui.woff2") format("woff2"),
-    url("../font/Iansui.woff") format("woff"),
-    url("../font/Iansui.ttf") format("truetype"),
-    url("../font/Iansui.svg") format("svg");
+  src: url("../font/Iansui.ttf");
   font-weight: normal;
   font-style: normal;
 }
