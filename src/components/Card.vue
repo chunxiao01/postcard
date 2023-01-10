@@ -121,9 +121,11 @@ onMounted(() => {
   word-wrap: break-word;
   text-align: center;
   color: #ffd8b3; /*#ffd700 #cd9694*/
+  font-family: Iansui;
   font-size: 50px;
   font-weight: 600;
   margin-bottom: 100px;
+  text-shadow: 0 0 0.5em #ffd8b3, 0 0 0.2em #ffffff;
 }
 
 .happy-new-year-txt1,
