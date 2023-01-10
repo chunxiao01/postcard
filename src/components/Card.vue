@@ -24,7 +24,7 @@ onMounted(() => {
     } else {
       flag.value = 0
     }
-  }, 5168)
+  }, 2023)
 })
 </script>
 <template>
@@ -125,9 +125,29 @@ onMounted(() => {
   font-size: 50px;
   font-weight: 600;
   margin-bottom: 100px;
-  text-shadow: 0 0 0.5em #ffd8b3, 0 0 0.2em #ffffff;
+  text-shadow: 0 0 0.6em #ffd8b3, 0 0 0.8em #ffffff;
+  /*animation: blink 3s linear infinite;
+  -webkit-animation: blink 3s linear infinite;
+  -moz-animation: blink 3s linear infinite;
+  -ms-animation: blink 3s linear infinite;
+  -o-animation: blink 3s linear infinite;*/
 }
+/*@keyframes blink {
+  0% {
+    opacity: 1;
+  }
 
+  50% {
+    opacity: 1;
+  }
+  50.01% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+*/
 .happy-new-year-txt1,
 .happy-new-year-txt2,
 .happy-new-year-txt3,
