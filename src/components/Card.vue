@@ -124,6 +124,10 @@ onMounted(() => {
   font-family: Iansui;
   font-size: 50px;
   font-weight: 600;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
   margin-bottom: 100px;
   text-shadow: 0 0 0.6em #ffd8b3, 0 0 0.8em #ffffff;
   /*animation: blink 3s linear infinite;
