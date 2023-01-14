@@ -308,11 +308,16 @@ Object.keys(appNodes).forEach((key) => {
 //控制音乐播放
 
 appNodes.soundBtn.addEventListener("click", () => {
+  const springfestival = document.getElementById("springfestival")
   if (store.state.soundEnabled) {
     appNodes.soundBtn.classList.remove("firework-sound-active")
+    springfestival.pause()
   } else {
     appNodes.soundBtn.classList.add("firework-sound-active")
+    springfestival.play()
+    springfestival.volume = 0.365
   }
+
   toggleSound()
   return
 })
