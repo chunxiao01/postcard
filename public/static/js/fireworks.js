@@ -315,6 +315,7 @@ appNodes.soundBtn.addEventListener("click", () => {
   } else {
     appNodes.soundBtn.classList.add("firework-sound-active")
     springfestival.play()
+    springfestival.volume = 0.365
   }
 
   toggleSound()
