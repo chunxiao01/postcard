@@ -3,7 +3,7 @@ import { onMounted, ref, reactive } from "vue"
 
 const words = reactive([
   "新年快樂",
-  "兔個吉祥",
+  "兔個吉利",
   "錢兔似錦",
   "大展宏兔",
   "好事成兔",
